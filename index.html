@@ -7,40 +7,35 @@
     body {
       margin: 0;
       background: black;
-      color: red;
-      font-family: Impact, Arial Black, sans-serif;
       overflow: hidden;
+      font-family: Impact, Arial Black, sans-serif;
     }
 
     .tradare {
       position: absolute;
-      font-size: 50px;
-      font-weight: bold;
       color: red;
+      font-weight: bold;
       mix-blend-mode: difference;
-      opacity: 0.1;
-      animation: drift 20s infinite linear;
-    }
-
-    @keyframes drift {
-      0% { transform: translate(0, 0) rotate(0deg); }
-      100% { transform: translate(100vw, 100vh) rotate(720deg); }
+      pointer-events: none;
     }
   </style>
 </head>
 <body>
   <script>
-    for (let i = 0; i < 200; i++) {
+    function creeazaTradare() {
       const text = document.createElement("div");
       text.className = "tradare";
       text.innerText = "TRĂDARE";
       text.style.left = `${Math.random() * 100}vw`;
       text.style.top = `${Math.random() * 100}vh`;
-      text.style.fontSize = `${20 + Math.random() * 100}px`;
-      text.style.opacity = `${0.05 + Math.random() * 0.15}`;
-      text.style.animationDuration = `${5 + Math.random() * 30}s`;
+      text.style.fontSize = `${20 + Math.random() * 80}px`;
+      text.style.opacity = `${0.05 + Math.random() * 0.2}`;
+      text.style.transform = `rotate(${Math.random() * 360}deg)`;
       document.body.appendChild(text);
     }
+
+    // Creează un nou "TRĂDARE" la fiecare 100ms
+    setInterval(creeazaTradare, 100);
   </script>
 </body>
 </html>
