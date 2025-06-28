@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <title>TRĂDARE</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      color: red;
+      font-family: Impact, Arial Black, sans-serif;
+      overflow: hidden;
+    }
+
+    .tradare {
+      position: absolute;
+      font-size: 50px;
+      font-weight: bold;
+      color: red;
+      mix-blend-mode: difference;
+      opacity: 0.1;
+      animation: drift 20s infinite linear;
+    }
+
+    @keyframes drift {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      100% { transform: translate(100vw, 100vh) rotate(720deg); }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    for (let i = 0; i < 200; i++) {
+      const text = document.createElement("div");
+      text.className = "tradare";
+      text.innerText = "TRĂDARE";
+      text.style.left = `${Math.random() * 100}vw`;
+      text.style.top = `${Math.random() * 100}vh`;
+      text.style.fontSize = `${20 + Math.random() * 100}px`;
+      text.style.opacity = `${0.05 + Math.random() * 0.15}`;
+      text.style.animationDuration = `${5 + Math.random() * 30}s`;
+      document.body.appendChild(text);
+    }
+  </script>
+</body>
+</html>
