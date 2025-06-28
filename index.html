@@ -35,13 +35,7 @@
 <body>
   <script>
     const colors = [
-      '#8B0000',   // dark red
-      '#4B0082',   // indigo
-      '#2F4F4F',   // dark slate gray
-      '#191970',   // midnight blue
-      '#3b3b3b',   // deep gray
-      '#5c003b',   // blood purple
-      '#330000'    // dried blood
+      '#8B0000', '#4B0082', '#2F4F4F', '#191970', '#3b3b3b', '#5c003b', '#330000'
     ];
 
     function dropBetrayal() {
@@ -54,14 +48,33 @@
       word.style.animationDuration = `${4 + Math.random() * 6}s`;
       document.body.appendChild(word);
 
-      // Șterge după cădere
-      setTimeout(() => {
-        word.remove();
-      }, 10000);
+      setTimeout(() => word.remove(), 10000);
     }
 
-    // Creează ploaie lentă, apăsătoare
     setInterval(dropBetrayal, 100);
+
+    // 🔁 Schimbare titlu progresivă
+    const word = "BETRAYAL";
+    let index = 1;
+    let reverse = false;
+
+    setInterval(() => {
+      document.title = word.slice(0, index);
+
+      if (!reverse) {
+        index++;
+        if (index > word.length) {
+          reverse = true;
+          index = word.length - 1;
+        }
+      } else {
+        index--;
+        if (index < 1) {
+          reverse = false;
+          index = 1;
+        }
+      }
+    }, 500);
   </script>
 </body>
 </html>
