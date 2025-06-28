@@ -1,59 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ro">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>BETRAYAL</title>
   <style>
     body {
       margin: 0;
       background: #0a0a0a;
-      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
       font-family: 'Impact', sans-serif;
+      overflow: hidden;
+      user-select: none;
+      cursor: pointer;
+      color: #8B0000; /* dark red */
     }
 
     .word {
-      position: absolute;
+      font-size: 8vw;
       font-weight: bold;
+      color: #8B0000;
+      text-shadow:
+        0 0 5px #8B0000,
+        0 0 10px #4B0082,
+        0 0 20px #330000;
+      position: relative;
       user-select: none;
-      pointer-events: none;
-      opacity: 0.1;
-      animation: fall linear;
     }
 
-    @keyframes fall {
+    .clone {
+      position: absolute;
+      pointer-events: none;
+      font-weight: bold;
+      color: #5c003b; /* blood purple */
+      text-shadow:
+        0 0 3px #5c003b,
+        0 0 8px #330000;
+      opacity: 0.7;
+      animation: floatUp 3s forwards;
+      font-size: 6vw;
+      user-select: none;
+    }
+
+    @keyframes floatUp {
       0% {
-        transform: translateY(-10%) rotate(0deg);
-        opacity: 0.2;
+        transform: translate(0, 0) scale(1);
+        opacity: 0.7;
       }
       100% {
-        transform: translateY(110vh) rotate(360deg);
-        opacity: 0.05;
+        transform: translate(calc(-50vw + 100px), -100vh) scale(0.5);
+        opacity: 0;
       }
     }
   </style>
 </head>
 <body>
+  <div id="mainWord" class="word">BETRAYAL</div>
+
   <script>
-    const colors = [
-      '#8B0000', '#4B0082', '#2F4F4F', '#191970', '#3b3b3b', '#5c003b', '#330000'
-    ];
-
-    function dropBetrayal() {
-      const word = document.createElement('div');
-      word.className = 'word';
-      word.innerText = 'BETRAYAL';
-      word.style.left = `${Math.random() * 100}vw`;
-      word.style.fontSize = `${16 + Math.random() * 30}px`;
-      word.style.color = colors[Math.floor(Math.random() * colors.length)];
-      word.style.animationDuration = `${4 + Math.random() * 6}s`;
-      document.body.appendChild(word);
-
-      setTimeout(() => word.remove(), 10000);
-    }
-
-    setInterval(dropBetrayal, 100);
-
-    // 🔁 Schimbare titlu progresivă
+    // Animatie titlu tab
     const word = "BETRAYAL";
     let index = 1;
     let reverse = false;
@@ -75,6 +82,24 @@
         }
       }
     }, 500);
+
+    // Multiplicare la click
+    const mainWord = document.getElementById('mainWord');
+    document.body.addEventListener('click', e => {
+      if (e.target !== mainWord) return;
+
+      const clone = mainWord.cloneNode(true);
+      clone.classList.add('clone');
+
+      // poziție aleatoare aproape de click
+      clone.style.left = (e.clientX + (Math.random() * 100 - 50)) + 'px';
+      clone.style.top = (e.clientY + (Math.random() * 100 - 50)) + 'px';
+
+      document.body.appendChild(clone);
+
+      // scapă clonele după 3 secunde (după animație)
+      setTimeout(() => clone.remove(), 3000);
+    });
   </script>
 </body>
 </html>
