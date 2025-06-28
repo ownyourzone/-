@@ -2,7 +2,7 @@
 <html lang="ro">
 <head>
   <meta charset="UTF-8" />
-  <title>BETRAYAL Flood</title>
+  <title>BETRAYAL Rain Optimized</title>
   <style>
     body {
       margin: 0;
@@ -11,77 +11,70 @@
       height: 100vh;
       font-family: 'Impact', sans-serif;
       position: relative;
-      color: #8B0000;
-    }
-
-    #container {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100vw;
-      height: 0;
-      overflow: visible;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: flex-end;
-      justify-content: center;
-      gap: 2px;
-      pointer-events: none;
-      user-select: none;
     }
 
     .word {
+      position: fixed;
+      top: -50px;
       font-weight: bold;
-      color: #8B0000;
+      user-select: none;
+      pointer-events: none;
+      opacity: 0.8;
+      white-space: nowrap;
       text-shadow:
         0 0 5px rgba(139, 0, 0, 0.7),
-        0 0 10px rgba(75, 0, 130, 0.6);
-      white-space: nowrap;
-      user-select: none;
-      font-size: 18px;
-      transform-origin: center;
-      animation: none !important;
+        0 0 10px rgba(75, 0, 130, 0.6),
+        0 0 15px rgba(51, 0, 0, 0.5);
+      will-change: transform;
     }
   </style>
 </head>
 <body>
-  <div id="container"></div>
-
   <script>
-    const container = document.getElementById('container');
     const colors = [
-      '#8B0000',   // dark red
-      '#4B0082',   // indigo
-      '#2F4F4F',   // dark slate gray
-      '#191970',   // midnight blue
-      '#3b3b3b',   // deep gray
-      '#5c003b',   // blood purple
-      '#330000'    // dried blood
+      '#8B0000',
+      '#4B0082',
+      '#2F4F4F',
+      '#191970',
+      '#3b3b3b',
+      '#5c003b',
+      '#330000'
     ];
 
+    let maxWords = 50;
+    let wordsOnScreen = 0;
+
     function createWord() {
+      if (wordsOnScreen >= maxWords) return;
+
       const word = document.createElement('div');
       word.className = 'word';
       word.innerText = 'BETRAYAL';
       word.style.color = colors[Math.floor(Math.random() * colors.length)];
-      word.style.fontSize = `${14 + Math.random() * 20}px`;
-      word.style.transform = `rotate(${(Math.random() - 0.5) * 40}deg)`;
-      return word;
+      word.style.left = `${Math.random() * 100}vw`;
+      word.style.fontSize = `${16 + Math.random() * 30}px`;
+      word.style.transform = `rotate(${Math.random() * 360}deg)`;
+      document.body.appendChild(word);
+
+      wordsOnScreen++;
+
+      let posY = -50;
+      const speed = 1 + Math.random() * 2;
+
+      function fall() {
+        posY += speed;
+        word.style.top = posY + 'px';
+        if (posY > window.innerHeight + 50) {
+          word.remove();
+          wordsOnScreen--;
+        } else {
+          requestAnimationFrame(fall);
+        }
+      }
+      requestAnimationFrame(fall);
     }
 
-    // Ploua cuvintele jos - inundă containerul
-    function flood() {
-      const word = createWord();
-      container.appendChild(word);
-      // crește înălțimea containerului ca să simuleze acumularea
-      container.style.height = (container.children.length * 24) + 'px';
-      // opțional, schimbă background-ul să devină tot mai întunecat pe măsură ce crește nivelul
-      const darkness = Math.min(container.children.length / 50, 1);
-      document.body.style.backgroundColor = `rgba(10,10,10,${0.7 + 0.3 * darkness})`;
-    }
-
-    // La fiecare 150ms plouă un cuvânt
-    setInterval(flood, 150);
+    setInterval(createWord, 100);
   </script>
 </body>
 </html>
