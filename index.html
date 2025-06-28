@@ -2,104 +2,72 @@
 <html lang="ro">
 <head>
   <meta charset="UTF-8" />
-  <title>BETRAYAL</title>
+  <title>BETRAYAL Rain</title>
   <style>
     body {
       margin: 0;
       background: #0a0a0a;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      overflow: hidden;
       height: 100vh;
       font-family: 'Impact', sans-serif;
-      overflow: hidden;
-      user-select: none;
-      cursor: pointer;
-      color: #8B0000; /* dark red */
+      position: relative;
     }
 
     .word {
-      font-size: 8vw;
+      position: fixed;
+      top: -50px;
       font-weight: bold;
-      color: #8B0000;
-      text-shadow:
-        0 0 5px #8B0000,
-        0 0 10px #4B0082,
-        0 0 20px #330000;
-      position: relative;
       user-select: none;
-    }
-
-    .clone {
-      position: absolute;
       pointer-events: none;
-      font-weight: bold;
-      color: #5c003b; /* blood purple */
+      opacity: 0.8;
+      white-space: nowrap;
       text-shadow:
-        0 0 3px #5c003b,
-        0 0 8px #330000;
-      opacity: 0.7;
-      animation: floatUp 3s forwards;
-      font-size: 6vw;
-      user-select: none;
-    }
-
-    @keyframes floatUp {
-      0% {
-        transform: translate(0, 0) scale(1);
-        opacity: 0.7;
-      }
-      100% {
-        transform: translate(calc(-50vw + 100px), -100vh) scale(0.5);
-        opacity: 0;
-      }
+        0 0 5px rgba(139, 0, 0, 0.7),
+        0 0 10px rgba(75, 0, 130, 0.6),
+        0 0 15px rgba(51, 0, 0, 0.5);
+      will-change: transform;
     }
   </style>
 </head>
 <body>
-  <div id="mainWord" class="word">BETRAYAL</div>
-
   <script>
-    // Animatie titlu tab
-    const word = "BETRAYAL";
-    let index = 1;
-    let reverse = false;
+    const colors = [
+      '#8B0000',   // dark red
+      '#4B0082',   // indigo
+      '#2F4F4F',   // dark slate gray
+      '#191970',   // midnight blue
+      '#3b3b3b',   // deep gray
+      '#5c003b',   // blood purple
+      '#330000'    // dried blood
+    ];
 
-    setInterval(() => {
-      document.title = word.slice(0, index);
+    function createWord() {
+      const word = document.createElement('div');
+      word.className = 'word';
+      word.innerText = 'BETRAYAL';
+      word.style.color = colors[Math.floor(Math.random() * colors.length)];
+      word.style.left = `${Math.random() * 100}vw`;
+      word.style.fontSize = `${16 + Math.random() * 30}px`;
+      word.style.transform = `rotate(${Math.random() * 360}deg)`;
+      document.body.appendChild(word);
 
-      if (!reverse) {
-        index++;
-        if (index > word.length) {
-          reverse = true;
-          index = word.length - 1;
-        }
-      } else {
-        index--;
-        if (index < 1) {
-          reverse = false;
-          index = 1;
+      let posY = -50;
+      const speed = 1 + Math.random() * 2; // viteza căderii
+
+      function fall() {
+        posY += speed;
+        word.style.top = posY + 'px';
+        if (posY > window.innerHeight + 50) {
+          word.remove();
+        } else {
+          requestAnimationFrame(fall);
         }
       }
-    }, 500);
+      requestAnimationFrame(fall);
+    }
 
-    // Multiplicare la click
-    const mainWord = document.getElementById('mainWord');
-    document.body.addEventListener('click', e => {
-      if (e.target !== mainWord) return;
-
-      const clone = mainWord.cloneNode(true);
-      clone.classList.add('clone');
-
-      // poziție aleatoare aproape de click
-      clone.style.left = (e.clientX + (Math.random() * 100 - 50)) + 'px';
-      clone.style.top = (e.clientY + (Math.random() * 100 - 50)) + 'px';
-
-      document.body.appendChild(clone);
-
-      // scapă clonele după 3 secunde (după animație)
-      setTimeout(() => clone.remove(), 3000);
-    });
+    // Creează câte un cuvânt la fiecare 100ms
+    setInterval(createWord, 100);
   </script>
 </body>
 </html>
