@@ -1,41 +1,67 @@
 <!DOCTYPE html>
-<html lang="ro">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>TRĂDARE</title>
+  <title>BETRAYAL</title>
   <style>
     body {
       margin: 0;
-      background: black;
+      background: #0a0a0a;
       overflow: hidden;
-      font-family: Impact, Arial Black, sans-serif;
+      font-family: 'Impact', sans-serif;
     }
 
-    .tradare {
+    .word {
       position: absolute;
-      color: red;
       font-weight: bold;
-      mix-blend-mode: difference;
+      user-select: none;
       pointer-events: none;
+      opacity: 0.1;
+      animation: fall linear;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-10%) rotate(0deg);
+        opacity: 0.2;
+      }
+      100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0.05;
+      }
     }
   </style>
 </head>
 <body>
   <script>
-    function creeazaTradare() {
-      const text = document.createElement("div");
-      text.className = "tradare";
-      text.innerText = "TRĂDARE";
-      text.style.left = `${Math.random() * 100}vw`;
-      text.style.top = `${Math.random() * 100}vh`;
-      text.style.fontSize = `${20 + Math.random() * 80}px`;
-      text.style.opacity = `${0.05 + Math.random() * 0.2}`;
-      text.style.transform = `rotate(${Math.random() * 360}deg)`;
-      document.body.appendChild(text);
+    const colors = [
+      '#8B0000',   // dark red
+      '#4B0082',   // indigo
+      '#2F4F4F',   // dark slate gray
+      '#191970',   // midnight blue
+      '#3b3b3b',   // deep gray
+      '#5c003b',   // blood purple
+      '#330000'    // dried blood
+    ];
+
+    function dropBetrayal() {
+      const word = document.createElement('div');
+      word.className = 'word';
+      word.innerText = 'BETRAYAL';
+      word.style.left = `${Math.random() * 100}vw`;
+      word.style.fontSize = `${16 + Math.random() * 30}px`;
+      word.style.color = colors[Math.floor(Math.random() * colors.length)];
+      word.style.animationDuration = `${4 + Math.random() * 6}s`;
+      document.body.appendChild(word);
+
+      // Șterge după cădere
+      setTimeout(() => {
+        word.remove();
+      }, 10000);
     }
 
-    // Creează un nou "TRĂDARE" la fiecare 100ms
-    setInterval(creeazaTradare, 100);
+    // Creează ploaie lentă, apăsătoare
+    setInterval(dropBetrayal, 100);
   </script>
 </body>
 </html>
