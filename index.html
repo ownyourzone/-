@@ -2,7 +2,7 @@
 <html lang="ro">
 <head>
   <meta charset="UTF-8" />
-  <title>BETRAYAL</title>
+  <title>BETRAYAL Rain cu Greieri</title>
   <style>
     body {
       margin: 0;
@@ -30,51 +30,66 @@
   </style>
 </head>
 <body>
-  <script>
-    const colors = [
-      '#8B0000',
-      '#4B0082',
-      '#2F4F4F',
-      '#191970',
-      '#3b3b3b',
-      '#5c003b',
-      '#330000'
-    ];
 
-    let maxWords = 50;
-    let wordsOnScreen = 0;
+<audio id="audio" loop autoplay muted>
+  <source src="https://orangefreesounds.com/wp-content/uploads/2022/05/Night-cricket-sound-effect.mp3" type="audio/mpeg" />
+  Browserul tău nu suportă elementul audio.
+</audio>
 
-    function createWord() {
-      if (wordsOnScreen >= maxWords) return;
-
-      const word = document.createElement('div');
-      word.className = 'word';
-      word.innerText = 'BETRAYAL';
-      word.style.color = colors[Math.floor(Math.random() * colors.length)];
-      word.style.left = `${Math.random() * 100}vw`;
-      word.style.fontSize = `${16 + Math.random() * 30}px`;
-      word.style.transform = `rotate(${Math.random() * 360}deg)`;
-      document.body.appendChild(word);
-
-      wordsOnScreen++;
-
-      let posY = -50;
-      const speed = 1 + Math.random() * 2;
-
-      function fall() {
-        posY += speed;
-        word.style.top = posY + 'px';
-        if (posY > window.innerHeight + 50) {
-          word.remove();
-          wordsOnScreen--;
-        } else {
-          requestAnimationFrame(fall);
-        }
-      }
-      requestAnimationFrame(fall);
+<script>
+  const audio = document.getElementById('audio');
+  // Pentru Chrome și alte browsere care blochează autoplay cu sunet, se dezactivează mut după primul click pe pagină
+  document.body.addEventListener('click', () => {
+    if (audio.paused) {
+      audio.muted = false;
+      audio.play();
     }
+  });
 
-    setInterval(createWord, 100);
-  </script>
+  const colors = [
+    '#8B0000',   // dark red
+    '#4B0082',   // indigo
+    '#2F4F4F',   // dark slate gray
+    '#191970',   // midnight blue
+    '#3b3b3b',   // deep gray
+    '#5c003b',   // blood purple
+    '#330000'    // dried blood
+  ];
+
+  let maxWords = 50;
+  let wordsOnScreen = 0;
+
+  function createWord() {
+    if (wordsOnScreen >= maxWords) return;
+
+    const word = document.createElement('div');
+    word.className = 'word';
+    word.innerText = 'BETRAYAL';
+    word.style.color = colors[Math.floor(Math.random() * colors.length)];
+    word.style.left = `${Math.random() * 100}vw`;
+    word.style.fontSize = `${16 + Math.random() * 30}px`;
+    word.style.transform = `rotate(${Math.random() * 360}deg)`;
+    document.body.appendChild(word);
+
+    wordsOnScreen++;
+
+    let posY = -50;
+    const speed = 1 + Math.random() * 2;
+
+    function fall() {
+      posY += speed;
+      word.style.top = posY + 'px';
+      if (posY > window.innerHeight + 50) {
+        word.remove();
+        wordsOnScreen--;
+      } else {
+        requestAnimationFrame(fall);
+      }
+    }
+    requestAnimationFrame(fall);
+  }
+
+  setInterval(createWord, 100);
+</script>
 </body>
 </html>
